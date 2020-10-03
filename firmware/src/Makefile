@@ -1,6 +1,7 @@
 # Try "make help" first
 #
-VERSION="1.1"
+MODEL="metabot2"
+VERSION="1.0"
 
 .DEFAULT_GOAL := sketch
 
@@ -10,6 +11,7 @@ LIB_RHOBAN_HOME = ./Maple/LibRhoban
 LIB_RHOCK_HOME = ./Maple/LibRhock
 ENABLE_RHOCK := yes
 ENABLE_COMMANDS := yes
+ENABLE_DXL := yes
 
 ##
 ## Useful paths, constants, etc.
@@ -38,7 +40,7 @@ BOARD_INCLUDE_DIR := $(MAKEDIR)/board-includes
 
 # Try "make help" for more information on BOARD and MEMORY_TARGET;
 # these default to a Maple Flash build.
-BOARD ?= opencm904
+BOARD ?= maple_mini
 MEMORY_TARGET ?= flash
 
 BOOTLOADER ?= robotis
@@ -90,11 +92,11 @@ LIBMAPLE_MODULES += $(LIBMAPLE_MODULE_SERIES) # STM32 series submodule in libmap
 LIBMAPLE_MODULES += $(SRCROOT)/wirish
 
 # Official libraries:
-LIBMAPLE_MODULES += $(SRCROOT)/libraries/Servo
+#LIBMAPLE_MODULES += $(SRCROOT)/libraries/Servo
 #LIBMAPLE_MODULES += $(SRCROOT)/libraries/LiquidCrystal
-LIBMAPLE_MODULES += $(SRCROOT)/libraries/Wire
+#LIBMAPLE_MODULES += $(SRCROOT)/libraries/Wire
 # Experimental libraries:
-#LIBMAPLE_MODULES += $(SRCROOT)/libraries/FreeRTOS
+# LIBMAPLE_MODULES += $(SRCROOT)/libraries/FreeRTOS
 
 # User modules:
 ifneq ($(USER_MODULES),)
@@ -146,8 +148,8 @@ install: $(BUILD_PATH)/$(BOARD).bin
 
 release: $(BUILD_PATH)/$(BOARD).bin
 	@echo "Copying to metabot.bin"
-	@echo $(VERSION) > ../metabot.version
-	cp $(BUILD_PATH)/$(BOARD).bin ../metabot.bin
+	@echo $(VERSION) > ../$(MODEL).version
+	cp $(BUILD_PATH)/$(BOARD).bin ../$(MODEL).bin
 
 # Force a rebuild if the target changed
 PREV_BUILD_TYPE = $(shell cat $(BUILD_PATH)/build-type 2>/dev/null)
